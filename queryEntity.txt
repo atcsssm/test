@@ -1,0 +1,82 @@
+a!queryEntity(
+  entity: cons!FBS_EMPLOYEES,
+  query: a!query(
+    selection: a!querySelection(
+      columns: {
+        a!queryColumn(field: "empId"),
+        a!queryColumn(field: "empName"),
+        a!queryColumn(field: "empDob")
+      }
+    ),
+	aggregation: a!queryAggregation(
+      aggregationColumns: {
+        a!queryAggregationColumn(
+          field: "empId",
+          alias: "empId_count",
+          aggregationFunction: "COUNT"
+        ),
+        a!queryAggregationColumn(
+          field: "empName",
+          isGrouping: true
+        )
+      }
+    ),
+    logicalExpression: a!queryLogicalExpression(
+      operator: "AND",
+      filters: {
+        a!queryFilter(field: "empName", operator: "not null", value, applyWhen),
+        a!queryFilter(field: "empDob", operator: "not null"),
+        a!queryFilter(field: "empCountry", operator: "not null")
+      },
+      ignoreFiltersWithEmptyValues: true
+    ),
+    pagingInfo: a!pagingInfo(
+      startIndex: 1,
+      batchSize: 20,
+      sort: a!sortInfo(field: "empName", ascending: true)
+    )
+  ),
+  fetchTotalCount: true
+)
+
+a!queryRecordType(
+	recordType:recordType!telus_Employees,
+	fields:{},
+	fields:a!aggregationFields(
+		groupings: {
+		a!grouping(
+			field: empName
+		)
+		}
+	),
+	filters: {},
+	pagingInfo: a!pagingInfo(),
+	fetchTotalCount,
+	relatedRecordData: a!queryRelatedRecordData(relationship, filters:),
+	aggregation
+)
+
+
+
+a!recordType(
+	recordType: ecordType!Employees,
+	fields:{},
+	filters: a!queryLogicalExpression(operator, filters: a!queryFilter(), logicalExpression, ignoreFiltersWithEmptyValues),
+	pagingInfo:
+	fetchTotalCount:
+	relatedRecord: a!relatedRecord(
+		relationship: 
+		filters:{
+		
+		}
+	)
+)
+
+a!aggregationFields(
+    groupings: {
+      a!grouping(
+        field: 'recordType!{033eb47d-0725-45a8-bb29-2ee46b834e29}FBS Product.fields.{761f0668-5326-4c77-8817-a309d29f9852}productname',
+        alias: "productname_grouping1"
+      )
+    }
+  )
